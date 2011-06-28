@@ -12,11 +12,11 @@ DATAGRAM_FORMAT = "=ffffff"
 time = 0.0
 
 while True:
-    left  = 100.0
-    right = 100.0
+    left  = 200.0
+    right = 200.0
     arm   =   5.0
     wrist =   2.0
-    grip  =   3.0
+    grip  =   2.0
     
     message = struct.pack(DATAGRAM_FORMAT,
                           time,
