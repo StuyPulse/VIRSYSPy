@@ -1,0 +1,1 @@
+This Python library is meant to test FRC robot code in conjunction with the VIRSYS physics simulator.  It will replace WPILib but implement the same API so that you can test the same code you will deploy on the cRIO.
