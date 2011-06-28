@@ -2,10 +2,10 @@ import socket
 import struct
 
 UDP_IP="127.0.0.1"
-UDP_PORT=5005
+UDP_PORT=50003
 
-print "UDP target IP:", UDP_IP
-print "UDP target port:", UDP_PORT
+print("UDP target IP:", UDP_IP)
+print("UDP target port:", UDP_PORT)
 
 DATAGRAM_FORMAT = "ffffff"
 
@@ -24,7 +24,7 @@ message = struct.pack(DATAGRAM_FORMAT,
                       wrist,
                       grip)
 
-print "message:", message
+print("message:", message)
 
 sock = socket.socket( socket.AF_INET, # Internet
                       socket.SOCK_DGRAM ) # UDP
