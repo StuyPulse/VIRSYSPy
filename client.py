@@ -7,7 +7,7 @@ UDP_PORT=50001
 print("UDP target IP:", UDP_IP)
 print("UDP target port:", UDP_PORT)
 
-DATAGRAM_FORMAT = "@ffffff"
+DATAGRAM_FORMAT = "=ffffff"
 
 time = 0.0
 
