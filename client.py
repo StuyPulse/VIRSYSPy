@@ -2,7 +2,7 @@ import socket
 import struct
 
 UDP_IP="127.0.0.1"
-UDP_PORT=50003
+UDP_PORT=50001
 
 print("UDP target IP:", UDP_IP)
 print("UDP target port:", UDP_PORT)
