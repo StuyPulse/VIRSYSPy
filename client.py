@@ -6,7 +6,7 @@ import threading
 from collections import namedtuple
 from ctypes import *
 
-UDP_IP="192.168.1.149"
+UDP_IP="127.0.0.1"
 UDP_OUT_PORT=50001
 UDP_IN_PORT = 50002
 
@@ -66,8 +66,8 @@ class ReceiveInput(threading.Thread):
         while True:
             # buffer size (in bytes) holds a float for each input
             message = sock.recv(len(INPUT_FIELDS) * sizeof(c_float))
-            print("received message:", message)
-            self.in_tuple = Input._make(unpack(in_format_str, message))
+            #print("received message:", message)
+            self.in_tuple = Input._make(struct.unpack(in_format_str, message))
             print(self.in_tuple)
 
 s = SendOutput()
