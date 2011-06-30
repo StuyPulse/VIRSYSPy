@@ -6,7 +6,7 @@ import threading
 from collections import namedtuple
 from ctypes import *
 
-UDP_IP="192.168.1.149"
+UDP_OUT_IP="192.168.1.149"
 UDP_OUT_PORT=50001
 UDP_IN_PORT = 50002
 
@@ -47,7 +47,7 @@ class SendOutput(threading.Thread):
             message = struct.pack(out_format_str, *self.out_tuple)
             sock = socket.socket( socket.AF_INET, # Internet
                                   socket.SOCK_DGRAM ) # UDP
-            sock.sendto( message, (UDP_IP, UDP_OUT_PORT) )
+            sock.sendto( message, (UDP_OUT_IP, UDP_OUT_PORT) )
             self.update_output(time = self.out_tuple.time+1)
             #print("message: ", message)
 
