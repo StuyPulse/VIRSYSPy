@@ -67,7 +67,7 @@ class ReceiveInput(threading.Thread):
             # buffer size (in bytes) holds a float for each input
             message = sock.recv(len(INPUT_FIELDS) * sizeof(c_float))
             print("received message:", message)
-            self.in_tuple = Input._make(struct.unpack(in_format_str, message))
+            self.in_tuple = Input(*struct.unpack(in_format_str, message))
             print(self.in_tuple)
 
 s = SendOutput()
