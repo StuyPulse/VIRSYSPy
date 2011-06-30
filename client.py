@@ -6,7 +6,7 @@ import threading
 from collections import namedtuple
 from ctypes import *
 
-UDP_IP="127.0.0.1"
+UDP_IP="192.168.1.149"
 UDP_OUT_PORT=50001
 UDP_IN_PORT = 50002
 
@@ -62,11 +62,11 @@ class ReceiveInput(threading.Thread):
     def run(self):
         sock = socket.socket( socket.AF_INET, # Internet
                               socket.SOCK_DGRAM ) # UDP
-        sock.bind( (UDP_IP,UDP_IN_PORT) )
+        sock.bind( ("", UDP_IN_PORT) )  # empty string is Python's INADDR_ANY
         while True:
             # buffer size (in bytes) holds a float for each input
             message = sock.recv(len(INPUT_FIELDS) * sizeof(c_float))
-            #print("received message:", message)
+            print("received message:", message)
             self.in_tuple = Input._make(struct.unpack(in_format_str, message))
             print(self.in_tuple)
 
