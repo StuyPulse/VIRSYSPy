@@ -59,6 +59,11 @@ class ReceiveInput(threading.Thread):
         self.in_tuple = Input(**in_init_vals)
         threading.Thread.__init__(self)
 
+    def is_newer(self, new_input):
+        assert isinstance(new_input, Input)
+        assert isinstance(self.in_tuple, Input)
+        return (new_input.time > self.in_tuple.time)
+
     def run(self):
         sock = socket.socket( socket.AF_INET, # Internet
                               socket.SOCK_DGRAM ) # UDP
@@ -67,8 +72,10 @@ class ReceiveInput(threading.Thread):
             # buffer size (in bytes) holds a float for each input
             message = sock.recv(len(INPUT_FIELDS) * sizeof(c_float))
             print("received message:", message)
-            self.in_tuple = Input(*struct.unpack(in_format_str, message))
-            print(self.in_tuple)
+            new_in_tuple = Input(*struct.unpack(in_format_str, message))
+            if self.is_newer(new_in_tuple):
+                self.in_tuple = new_in_tuple
+                print(self.in_tuple)
 
 s = SendOutput()
 s.daemon = True
