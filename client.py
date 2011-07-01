@@ -6,7 +6,7 @@ import threading
 from collections import namedtuple
 from ctypes import *
 
-UDP_OUT_IP="192.168.1.149"
+UDP_OUT_IP="127.0.0.1"
 UDP_OUT_PORT=50001
 UDP_IN_PORT = 50002
 
