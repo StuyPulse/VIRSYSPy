@@ -5,10 +5,7 @@ import struct
 import threading
 from collections import namedtuple
 from ctypes import *
-
-UDP_OUT_IP="127.0.0.1"
-UDP_OUT_PORT=50001
-UDP_IN_PORT = 50002
+import configparser
 
 OUTPUT_FIELDS = ("time",
                  "left",
@@ -36,6 +33,14 @@ Input = namedtuple("Input", INPUT_FIELDS)
 
 out_init_vals = dict([field, 0.0] for field in OUTPUT_FIELDS)
 in_init_vals = dict([field, 0.0] for field in INPUT_FIELDS)
+
+
+conf_file = "virsysPy.conf"
+cfg = configparser.ConfigParser()
+cfg.read(conf_file)
+UDP_OUT_IP   = cfg.get("Network", "VIRSYS_IP")
+UDP_OUT_PORT = cfg.getint("Network", "VIRSYS_RECV_PORT")
+UDP_IN_PORT  = cfg.getint("Network", "LOCAL_RECV_PORT")
 
 class SendOutput(threading.Thread):
     def __init__(self):
