@@ -1,1 +1,28 @@
-This Python library is meant to test FRC robot code in conjunction with the VIRSYS physics simulator.  It will replace WPILib but implement the same API so that you can test the same code you will deploy on the cRIO.
+This Python library will test FRC robot code in conjunction with
+the VIRSYS physics simulator.  It will implement the same API as WPILib,
+allowing one to test the same code that will run on the cRIO.
+
+DEPENDENCIES
+
+1.  VIRSYS (VIrtual Robot SYStem)
+    Go to http://www.virsys.org/get_started.html, and get
+      * VIRSYS alpha download
+      * GLUT library
+    You not the LabVIEW project as this Python implementation replaces it.
+
+2.  Python
+    Go to http://python.org/download/, download Python for your platform
+    virsysPy has been tested on Python 3.1.2 and Python 3.2, but others
+    should work as well.
+
+RUNNING THE PROJECT
+
+    Run both programs simultaneously:
+      * main.py      <-- from this project, virsysPy
+      * virsys.exe   <-- from the VIRSYS download, DEPENDENCIES #1
+    Put your robot program in main.py.  A sample is provided.
+
+    You may have to edit some configuration files.  If you want to run
+    your Python program on a different computer than VIRSYS, edit
+    both virsysPy.conf and VIRSYS's virsysPhysics.txt to reflect the IP
+    addresses and port numbers of the respective hosts
