@@ -1,6 +1,10 @@
 #!/usr/bin/python3.1
 
 import client
+try:
+    import wpilib
+except:
+    import fake_wpilib as wpilib
 
 while True:
     client.s.update_output("PWMOut", 1, 110)
