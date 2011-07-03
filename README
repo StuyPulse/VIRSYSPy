@@ -22,7 +22,11 @@ RUNNING THE PROJECT
       * virsys.exe   <-- from the VIRSYS download, DEPENDENCIES #1
     Put your robot program in main.py.  A sample is provided.
 
-    You may have to edit some configuration files.  If you want to run
-    your Python program on a different computer than VIRSYS, edit
-    both virsysPy.conf and VIRSYS's virsysPhysics.txt to reflect the IP
+CONFIGURATION
+
+    To run your Python program on a different computer than VIRSYS, edit
+    both network.conf and VIRSYS's virsysPhysics.txt to reflect the IP
     addresses and port numbers of the respective hosts
+
+    Edit port numbers in cRIO_ports.conf to match the port numbers on your
+    actual robot.

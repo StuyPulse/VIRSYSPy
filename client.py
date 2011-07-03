@@ -31,12 +31,21 @@ Output = namedtuple("Output", OUTPUT_FIELDS)
 Input = namedtuple("Input", INPUT_FIELDS)
 
 # Get network data from config file
-conf_file = "virsysPy.conf"
-cfg = configparser.ConfigParser()
-cfg.read(conf_file)
-UDP_OUT_IP   = cfg.get("Network", "VIRSYS_IP")
-UDP_OUT_PORT = cfg.getint("Network", "VIRSYS_RECV_PORT")
-UDP_IN_PORT  = cfg.getint("Network", "LOCAL_RECV_PORT")
+net_cfg = configparser.ConfigParser()
+net_cfg.read("network.conf")
+UDP_OUT_IP   = net_cfg.get("Network", "VIRSYS_IP")
+UDP_OUT_PORT = net_cfg.getint("Network", "VIRSYS_RECV_PORT")
+UDP_IN_PORT  = net_cfg.getint("Network", "LOCAL_RECV_PORT")
+
+# Read port numbers for robot I/O
+# User configures port numbers to match sensors and actuators on the real robot
+port_cfg = configparser.ConfigParser()
+port_cfg.read("cRIO_ports.conf")
+ports = {}
+for section in port_cfg.sections():
+    ports[section] = {}
+    for port_name in port_cfg.options(section):
+        ports[section][port_cfg.getint(section, port_name)] = port_name
 
 class SendOutput(threading.Thread):
     """
@@ -60,13 +69,19 @@ class SendOutput(threading.Thread):
             sock = socket.socket( socket.AF_INET, # Internet
                                   socket.SOCK_DGRAM ) # UDP
             sock.sendto( message, (UDP_OUT_IP, UDP_OUT_PORT) )
-            self.update_output(time = self.out_tuple.time+1)
+            self._update_buffer(time = self.out_tuple.time+1)
 
-    def update_output(self, **keywords):
+    def _update_buffer(self, **keywords):
         """
         Store a new value or values in the Output buffer
         """
         self.out_tuple = self.out_tuple._replace(**keywords)
+
+    def update_output(self, type_name, port, value):
+        """
+        Store a new output value to a given port number.
+        """
+        self._update_buffer(**{ports[type_name][port] : value})
 
 class ReceiveInput(threading.Thread):
     """
