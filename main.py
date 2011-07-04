@@ -5,9 +5,9 @@ try:
 except:
     import fake_wpilib as wpilib
 
-v = wpilib.Victor(1)
-w = wpilib.Victor(2)
+v = wpilib.Jaguar(1)
+w = wpilib.Jaguar(2)
     
 while True:
-    v.set(0.7)
-    w.set(0.5)
+    v.set(1)
+    w.set(0.6)

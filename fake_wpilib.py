@@ -17,3 +17,5 @@ class Victor:
 
     def pidWrite(self, output):
         pass
+
+Jaguar = Victor    # They basically do the same thing
