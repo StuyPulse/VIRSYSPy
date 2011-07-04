@@ -9,5 +9,5 @@ v = wpilib.Jaguar(1)
 w = wpilib.Jaguar(2)
     
 while True:
-    v.set(1)
-    w.set(0.6)
+    v.Set(1)
+    w.Set(0.6)
