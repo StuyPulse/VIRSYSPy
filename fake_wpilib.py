@@ -32,3 +32,19 @@ class Victor:
         pass
 
 Jaguar = Victor    # They basically do the same thing
+
+class Gyro:
+    def __init__(self, channel):
+        self.channel = channel
+
+    def Reset(self):
+        pass
+
+    def GetAngle(self):
+        return client.r.get_value("InPorts", self.channel)
+
+    def PIDGet(self):
+        return self.GetAngle()
+
+    def SetSensitivity(self, voltsPerDegreePerSecond):
+        pass

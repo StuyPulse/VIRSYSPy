@@ -105,6 +105,9 @@ class ReceiveInput(threading.Thread):
         assert isinstance(self.in_tuple, Input)
         return (new_input.time > self.in_tuple.time)
 
+    def get_value(self, type_name, port):
+        return self.in_tuple._asdict()[ports[type_name][port]]
+
     def run(self):
         """
         Continuously receive input from VIRSYS and store it in an Input buffer
