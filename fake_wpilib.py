@@ -48,3 +48,18 @@ class Gyro:
 
     def SetSensitivity(self, voltsPerDegreePerSecond):
         pass
+
+class Encoder:
+    def __init__(self, channel_a, channel_b):
+        # Hardware encoders use two input channels
+        # VIRSYS provides wheel rate (instantaneous) and angle (cumulative?)
+	# so we use the two channels for that instead.
+
+        self.channel_a = channel_a  # rate
+        self.channel_b = channel_b  # distance
+    
+    def GetRate(self):
+        return client.r.get_value("InPorts", self.channel_a)
+
+    def GetDistance(self):
+        return client.r.get_value("InPorts", self.channel_b)
