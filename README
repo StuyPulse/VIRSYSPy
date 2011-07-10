@@ -18,9 +18,14 @@ DEPENDENCIES
 RUNNING THE PROJECT
 
     Run both programs simultaneously:
-      * main.py      <-- from this project, virsysPy
+      * robot.py     <-- from this project, virsysPy
       * virsys.exe   <-- from the VIRSYS download, DEPENDENCIES #1
-    Put your robot program in main.py.  A sample is provided.
+    Put your robot program in robot.py.  A sample is provided.
+    It is hard coded for Autonomous mode (a fix will come later).
+    For now, to test Operator Control, change:
+      * robot.py: add an OperatorControl method
+      * fake_wpilib.py: RobotBase.IsOperatorControl to return True
+      	                RobotBase.IsAutonomous      to return False
 
 CONFIGURATION
 
