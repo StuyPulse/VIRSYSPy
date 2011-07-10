@@ -1,5 +1,6 @@
 import client
 import configparser
+import time
 
 torque_cfg = configparser.ConfigParser()
 torque_cfg.read("motorTorques.conf")
@@ -63,3 +64,45 @@ class Encoder:
 
     def GetDistance(self):
         return client.r.get_value("InPorts", self.channel_b)
+
+class Timer(object):
+    def __init__(self):
+        self.start_time = 0
+        self.accumulated_time = 0
+        self.running = False
+        self.Reset()
+        
+    def Get(self):
+        if self.running:
+            return (time.time() - self.start_time) + self.accumulated_time
+        else:
+            return self.accumulated_time
+        
+    def Reset(self):
+        self.accumulated_time = 0
+        self.start_time = time.time()
+        
+    def Start(self):
+        if not self.running:
+            self.start_time = time.time()
+            self.running = True
+        
+    def Stop(self):
+        if self.running:
+            self.accumulated_time += self.Get()
+            self.running = False
+        
+    def HasPeriodPassed(self, period):
+        if self.Get() > period:
+            self.start_time += period
+            return True
+        return False
+
+    def Wait(seconds):
+        t = Timer()
+        t.Start()
+        while not t.HasPeriodPassed(seconds):
+            pass
+
+    def GetClock():
+        return time.time()
