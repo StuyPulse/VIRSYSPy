@@ -366,4 +366,12 @@ class PIDController(threading.Thread):
         self.m_pidOutput = output;
         self.m_period = period;
 
-        #m_controlLoop.schedule(new PIDTask(this), 0L, (long) (m_period * 1000));
+        threading.Thread.__init__(self)
+        self.setDaemon(True)
+
+        self.start()
+
+    def run(self):
+        while 1:
+            print("hello")
+            time.sleep(0.5)
