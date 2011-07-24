@@ -403,6 +403,18 @@ class PIDController(threading.Thread):
             self._calculate()
             time.sleep(self.m_period)
 
+    def SetContinuous(self, continuous):
+        m_continuous = continuous
+
+    def SetInputRange(self, minimumInput, maximumInput):
+        m_minimumInput = minimumInput
+        m_maximumInput = maximumInput	
+        self.SetSetpoint(m_setpoint)
+
+    def SetOutputRange(self, minimumOutput, maximumOutput):
+        m_minimumOutput = minimumOutput
+        m_maximumOutput = maximumOutput
+
     def SetPID(self, P, I, D):
         self.m_P = P
         self.m_I = I
