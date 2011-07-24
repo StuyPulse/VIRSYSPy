@@ -353,10 +353,6 @@ class Timer(object):
 
 class PIDController(threading.Thread):
     def __init__(self, Kp, Ki, Kd, source, output, period=0.05):
-        """if source == null
-            raise Exception("Null PIDSource was given");
-        if (output == null)
-            raise Exception("Null PIDOutput was given")"""
 
         self.m_P = Kp
         self.m_I = Ki
@@ -387,7 +383,6 @@ class PIDController(threading.Thread):
         self.m_pidOutput = output
         self.m_period = period
 
-
         threading.Thread.__init__(self)
         self.setDaemon(True)
 
@@ -414,6 +409,27 @@ class PIDController(threading.Thread):
     def SetOutputRange(self, minimumOutput, maximumOutput):
         m_minimumOutput = minimumOutput
         m_maximumOutput = maximumOutput
+
+
+    def SetSetpoint(self, setpoint):
+        if m_maximumInput > m_minimumInput:
+            if setpoint > m_maximumInput:
+                m_setpoint = m_maximumInput
+            elif setpoint < m_minimumInput:
+                m_setpoint = m_minimumInput
+            else:
+                m_setpoint = setpoint
+        else:
+            m_setpoint = setpoint
+
+    def GetSetpoint(self):
+        return m_setpoint
+
+    def GetError(self):
+        return m_error
+
+    def SetTolerance(self, percent):
+        self.m_tolerance = percent
 
     def SetPID(self, P, I, D):
         self.m_P = P
