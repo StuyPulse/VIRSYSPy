@@ -352,4 +352,18 @@ class Timer(object):
         return time.time()
 
 class PIDController(threading.Thread):
-    pass
+    def __init__(self, Kp, Ki, Kd, source, output, period=0.5):
+        """if source == null
+            raise Exception("Null PIDSource was given");
+        if (output == null)
+            raise Exception("Null PIDOutput was given")"""
+
+        self.m_P = Kp;
+        self.m_I = Ki;
+        self.m_D = Kd;
+
+        self.m_pidInput = source;
+        self.m_pidOutput = output;
+        self.m_period = period;
+
+        #m_controlLoop.schedule(new PIDTask(this), 0L, (long) (m_period * 1000));
