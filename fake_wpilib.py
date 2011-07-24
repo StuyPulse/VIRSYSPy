@@ -1,6 +1,7 @@
 import client
 import configparser
 import time
+import threading
 
 torque_cfg = configparser.ConfigParser()
 torque_cfg.read("motorTorques.conf")
@@ -349,3 +350,6 @@ class Timer(object):
 
     def GetClock():
         return time.time()
+
+class PIDController(threading.Thread):
+    pass
