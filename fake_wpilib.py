@@ -371,7 +371,11 @@ class PIDController(threading.Thread):
 
         self.start()
 
+    def calculate(self):
+        #TODO: implement PID algorithm here
+        print("hello")
+
     def run(self):
         while 1:
-            print("hello")
-            time.sleep(0.5)
+            self.calculate()
+            time.sleep(self.m_period)
