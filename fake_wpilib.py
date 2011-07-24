@@ -382,6 +382,20 @@ class PIDController(threading.Thread):
             self._calculate()
             time.sleep(self.m_period)
 
+    def SetPID(self, P, I, D):
+        self.m_P = P
+        self.m_I = I
+        self.m_D = D
+
+    def GetP(self):
+        return self.m_P
+
+    def GetI(self):
+        return self.m_I
+
+    def GetD(self):
+        return self.m_D
+
     def Enable(self):
         self.m_enabled = True
 
