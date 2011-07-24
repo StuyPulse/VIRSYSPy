@@ -358,14 +358,35 @@ class PIDController(threading.Thread):
         if (output == null)
             raise Exception("Null PIDOutput was given")"""
 
-        self.m_P = Kp;
-        self.m_I = Ki;
-        self.m_D = Kd;
+        self.m_P = Kp
+        self.m_I = Ki
+        self.m_D = Kd
 
-        self.m_pidInput = source;
-        self.m_pidOutput = output;
-        self.m_period = period;
+        self.m_pidInput = source
+        self.m_pidOutput = output
+        self.m_period = period
         self.m_enabled = False
+
+        self.m_maximumOutput = 1.0
+        self.m_minimumOutput = -1.0
+
+        self.m_maximumInput = 0
+        self.m_minimumInput = 0
+	
+        self.m_continuous = False
+        self.m_enabled = False
+        self.m_setpoint = 0
+
+        self.m_prevError = 0
+        self.m_totalError = 0
+        self.m_tolerance = .05
+
+        self.m_result = 0
+	
+        self.m_pidInput = source
+        self.m_pidOutput = output
+        self.m_period = period
+
 
         threading.Thread.__init__(self)
         self.setDaemon(True)
