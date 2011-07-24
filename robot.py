@@ -17,7 +17,7 @@ class MyRobot(wpilib.SimpleRobot):
     def Autonomous(self):
         p = wpilib.PIDController(0, 0, 0, self.arm_gyro, self.arm_motor)
 
-        while self.IsAutonomous() and self.IsEnabled():
+        """while self.IsAutonomous() and self.IsEnabled():
             self.v.Set(1)
             self.w.Set(1)
             #self.arm_motor.Set(-1)
@@ -25,7 +25,12 @@ class MyRobot(wpilib.SimpleRobot):
             self.v.Set(-1)
             self.w.Set(-1)
             #self.arm_motor.Set(-0.3)
-            wpilib.Timer.Wait(1)
+            wpilib.Timer.Wait(1)"""
+
+        wpilib.Timer.Wait(1)
+        p.Enable()
+        wpilib.Timer.Wait(1.5)
+        p.Disable()
 
 def run():
     robot = MyRobot()

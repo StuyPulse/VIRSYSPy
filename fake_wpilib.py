@@ -70,15 +70,15 @@ class SimpleRobot(RobotBase):
             if self.IsDisabled():
                 self.Disabled()
                 while self.IsDisabled():
-                    Wait(0.01)
+                    Timer.Wait(0.01)
             elif self.IsAutonomous():
                 self.Autonomous()
                 while self.IsAutonomous() and self.IsEnabled():
-                    Wait(0.01)
+                    Timer.Wait(0.01)
             else:
                 self.OperatorControl()
                 while self.IsOperatorControl() and self.IsEnabled():
-                    Wait(0.01)
+                    Timer.Wait(0.01)
 
 class IterativeRobot(RobotBase):
     """IterativeRobot implements a specific type of Robot Program
@@ -365,17 +365,26 @@ class PIDController(threading.Thread):
         self.m_pidInput = source;
         self.m_pidOutput = output;
         self.m_period = period;
+        self.m_enabled = False
 
         threading.Thread.__init__(self)
         self.setDaemon(True)
 
         self.start()
 
-    def calculate(self):
+    def _calculate(self):
         #TODO: implement PID algorithm here
-        print("hello")
+        if self.m_enabled:
+            print("hello")
 
     def run(self):
         while 1:
-            self.calculate()
+            self._calculate()
             time.sleep(self.m_period)
+
+    def Enable(self):
+        self.m_enabled = True
+
+    def Disable(self):
+        self.m_pidOutput.PIDWrite(0)
+        self.m_enabled = False
