@@ -352,7 +352,7 @@ class Timer(object):
         return time.time()
 
 class PIDController(threading.Thread):
-    def __init__(self, Kp, Ki, Kd, source, output, period=0.5):
+    def __init__(self, Kp, Ki, Kd, source, output, period=0.05):
         """if source == null
             raise Exception("Null PIDSource was given");
         if (output == null)
