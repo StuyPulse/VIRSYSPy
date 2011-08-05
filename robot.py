@@ -15,14 +15,17 @@ class MyRobot(wpilib.SimpleRobot):
         self.right_enc = wpilib.Encoder(8, 7)
 
     def Autonomous(self):
-        p = wpilib.PIDController(0.5, 0.25, 0.1, self.arm_gyro, self.arm_motor)
-        print(p.GetP(), p.GetI(), p.GetD())
-        p.SetPID(1, 0.5, 0.25)
-        print(p.GetP(), p.GetI(), p.GetD())
-        wpilib.Timer.Wait(1)
+        #while 1:
+        #    print(self.arm_gyro.GetAngle())
+        #    wpilib.Timer.Wait(0.05)
+        
+        #self.arm_motor.Set(-1)
+
+        p = wpilib.PIDController(15, 1, 0, self.arm_gyro, self.arm_motor, 0.5)
+        p.SetInputRange(-3.14, 3.14)
+        p.SetOutputRange(-1, 1)
+        p.SetSetpoint(0)
         p.Enable()
-        wpilib.Timer.Wait(1.5)
-        p.Disable()
 
 def run():
     robot = MyRobot()

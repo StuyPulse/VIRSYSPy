@@ -274,7 +274,8 @@ class Victor:
         pass
 
     def PIDWrite(self, output):
-        pass
+        print("pidwrite: ", output)
+        self.Set(output)
 
 Jaguar = Victor    # They basically do the same thing
 
@@ -389,44 +390,67 @@ class PIDController(threading.Thread):
         self.start()
 
     def _calculate(self):
-        #TODO: implement PID algorithm here
         if self.m_enabled:
-            print("hello")
+            input = self.m_pidInput.PIDGet();
 
+            self.m_error = self.m_setpoint - input;
+            if self.m_continuous:
+                if abs(self.m_error) > (self.m_maximumInput - self.m_minimumInput) / 2:
+                    if self.m_error > 0:
+                        self.m_error = self.m_error - self.m_maximumInput + self.m_minimumInput
+                    else:
+                        self.m_error = self.m_error + self.m_maximumInput - self.m_minimumInput
+
+            if ((self.m_totalError + self.m_error) * self.m_I < self.m_maximumOutput) and \
+                    ((self.m_totalError + self.m_error) * self.m_I > self.m_minimumOutput):
+               self.m_totalError += self.m_error
+
+            self.m_result = self.m_P * self.m_error + \
+                            self.m_I * self.m_totalError + \
+                            self.m_D * (self.m_error - self.m_prevError)
+            self.m_prevError = self.m_error
+
+            if self.m_result > self.m_maximumOutput:
+                self.m_result = self.m_maximumOutput
+            elif self.m_result < self.m_minimumOutput:
+                self.m_result = self.m_minimumOutput
+
+            self.m_pidOutput.PIDWrite(self.m_result)
+            
     def run(self):
         while 1:
             self._calculate()
             time.sleep(self.m_period)
 
     def SetContinuous(self, continuous):
-        m_continuous = continuous
+        self.m_continuous = continuous
 
     def SetInputRange(self, minimumInput, maximumInput):
-        m_minimumInput = minimumInput
-        m_maximumInput = maximumInput	
-        self.SetSetpoint(m_setpoint)
+        self.m_minimumInput = minimumInput
+        self.m_maximumInput = maximumInput	
+        self.SetSetpoint(self.m_setpoint)
 
     def SetOutputRange(self, minimumOutput, maximumOutput):
-        m_minimumOutput = minimumOutput
-        m_maximumOutput = maximumOutput
+        self.m_minimumOutput = minimumOutput
+        self.m_maximumOutput = maximumOutput
 
 
     def SetSetpoint(self, setpoint):
-        if m_maximumInput > m_minimumInput:
-            if setpoint > m_maximumInput:
-                m_setpoint = m_maximumInput
-            elif setpoint < m_minimumInput:
-                m_setpoint = m_minimumInput
+        if self.m_maximumInput > self.m_minimumInput:
+            if setpoint > self.m_maximumInput:
+                self.m_setpoint = self.m_maximumInput
+            elif setpoint < self.m_minimumInput:
+                self.m_setpoint = self.m_minimumInput
             else:
-                m_setpoint = setpoint
+                self.m_setpoint = setpoint
         else:
-            m_setpoint = setpoint
+            self.m_setpoint = setpoint
 
     def GetSetpoint(self):
-        return m_setpoint
+        return self.m_setpoint
 
     def GetError(self):
-        return m_error
+        return self.m_error
 
     def SetTolerance(self, percent):
         self.m_tolerance = percent
@@ -451,3 +475,9 @@ class PIDController(threading.Thread):
     def Disable(self):
         self.m_pidOutput.PIDWrite(0)
         self.m_enabled = False
+
+    def Reset():
+        self.Disable()
+        self.m_prevError = 0
+        self.m_totalError = 0
+        self.m_result = 0
