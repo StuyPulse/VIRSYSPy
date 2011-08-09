@@ -274,7 +274,6 @@ class Victor:
         pass
 
     def PIDWrite(self, output):
-        print("pidwrite: ", output)
         self.Set(output)
 
 Jaguar = Victor    # They basically do the same thing
@@ -309,6 +308,9 @@ class Encoder:
 
     def GetDistance(self):
         return client.r.get_value("InPorts", self.channel_b)
+
+    def PIDGet(self):
+        return self.GetDistance()
 
 class Timer(object):
     def __init__(self):
@@ -416,6 +418,8 @@ class PIDController(threading.Thread):
                 self.m_result = self.m_minimumOutput
 
             self.m_pidOutput.PIDWrite(self.m_result)
+
+            print("err:\t", self.m_error, "\t Output:\t", self.m_result)
             
     def run(self):
         while 1:
